@@ -1,0 +1,204 @@
+<ng-container *ngIf="messageForm; else loader">
+
+  <h4><b>внесіть дані повідомлення:</b></h4>
+
+  <form
+    class="contentContainer scroll centerHorizontal"
+    [formGroup]="messageForm"
+    (ngSubmit)="onSubmit(messageForm.value)"
+  >
+
+    <mat-form-field class="col-sm-12">
+      <mat-label>text</mat-label>
+      <textarea
+        matInput
+        cols="30"
+        rows="5"
+        type="text"
+        formControlName="text"
+      >
+      </textarea>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-4">
+      <mat-label>parse_mode</mat-label>
+      <mat-select
+        formControlName="parse_mode"
+      >
+        <mat-option value="HTML">HTML</mat-option>
+        <mat-option value="MarkdownV2">MarkdownV2</mat-option>
+        <mat-option value="Markdown">Markdown</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-4">
+      <mat-label>chat_id</mat-label>
+      <input
+        matInput
+        type="text"
+        formControlName="chat_id"
+      />
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-4">
+      <mat-label>reply_to_message_id</mat-label>
+      <input
+        matInput
+        type="text"
+        formControlName="reply_to_message_id"
+      />
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-3">
+      <mat-label>disable_notification</mat-label>
+      <mat-select
+        formControlName="disable_notification"
+      >
+        <mat-option [value] = true>дозволити</mat-option>
+        <mat-option [value] = false>заборонити</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-3">
+      <mat-label>disable_web_page_preview</mat-label>
+      <mat-select
+        formControlName="disable_web_page_preview"
+      >
+        <mat-option [value] = true>дозволити</mat-option>
+        <mat-option [value] = false>заборонити</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-3">
+      <mat-label>protect_content</mat-label>
+      <mat-select
+        formControlName="protect_content"
+      >
+        <mat-option [value] = true>дозволити</mat-option>
+        <mat-option [value] = false>заборонити</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-3">
+      <mat-label>allow_sending_without_reply</mat-label>
+      <mat-select
+        formControlName="allow_sending_without_reply"
+      >
+        <mat-option [value] = true>дозволити</mat-option>
+        <mat-option [value] = false>заборонити</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-12">
+      <mat-label>reply_markup</mat-label>
+      <textarea
+        matInput
+        cols="30"
+        rows="2"
+        type="text"
+        formControlName="reply_markup"
+      >
+      </textarea>
+    </mat-form-field>
+
+    <div
+      formArrayName="entities" *ngFor="let _ of entities.controls; index as i last as last"
+    >
+      <div formGroupName="{{i}}">
+        <mat-form-field class="col-sm-2">
+          <mat-label>type</mat-label>
+          <input
+            matInput
+            type="text"
+            formControlName="type"
+          />
+        </mat-form-field>
+
+        <mat-form-field class="col-sm-2">
+          <mat-label>offset</mat-label>
+          <input
+            matInput
+            type="number"
+            [min]="0"
+            formControlName="offset"
+          />
+        </mat-form-field>
+
+        <mat-form-field class="col-sm-2">
+          <mat-label>length</mat-label>
+          <input
+            matInput
+            type="number"
+            [min]="0"
+            formControlName="length"
+          />
+        </mat-form-field>
+
+        <mat-form-field class="col-sm-2">
+          <mat-label>url</mat-label>
+          <input
+            matInput
+            type="text"
+            formControlName="url"
+          />
+        </mat-form-field>
+
+        <mat-form-field class="col-sm-2">
+          <mat-label>user</mat-label>
+          <input
+            matInput
+            type="text"
+            formControlName="user"
+          />
+        </mat-form-field>
+
+        <mat-form-field class="col-sm-2">
+          <mat-label>language</mat-label>
+          <input
+            matInput
+            type="text"
+            formControlName="language"
+          />
+        </mat-form-field>
+
+        <mat-icon class="pointer" (click)="removeEntity(i)">delete</mat-icon>
+      </div>
+    </div>
+
+    <div class="col-sm-12">
+      <mat-icon class="pointer centerHorizontal" (click)="addEntities()" title="додати варіант відповіді">add
+      </mat-icon>
+    </div>
+
+    <div class="col-sm-12">
+      <button
+        class="col-sm-6"
+        [backGround]="'gray'"
+        appButtonStyle
+        type="button"
+        (click)="goToMainPage()"
+      >
+        cancel
+      </button>
+
+      <button
+        class="col-sm-6"
+        [disabled]="messageForm.invalid || sending"
+        [backGround]="'green'"
+        appButtonStyle
+        type="submit"
+      >
+        send message
+      </button>
+    </div>
+
+  </form>
+</ng-container>
+
+<ng-template #loader>
+  <app-loader></app-loader>
+
+</ng-template>
+
+
+
