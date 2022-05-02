@@ -19,18 +19,12 @@ body {
 
 /* buttons styles works together with buttonsStylingDirective */
 button {
-  font-family: "Oswald Light", "Roboto Condensed Light", sans-serif;
-  width: 10vw;
+  font-family: "Oswald Light", "Roboto Condensed", sans-serif;
+  margin: 5px 0 5px 0;
 }
 
 button:disabled {
   background-color: rgba(80, 80, 89, 0.2) !important;
-}
-
-@media (max-width: 800px) {
-  button {
-    width: 80px;
-  }
 }
 
 body {

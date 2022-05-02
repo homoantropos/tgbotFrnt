@@ -1,5 +1,5 @@
 <div
-  class="centerHorizontal scroll"
+  class="centerHorizontal scroll contentContainer"
 >
 
   <ng-container *ngIf="message">
@@ -20,6 +20,7 @@
     />
 
     <button
+      class="col-sm-6"
       title="button to click input file"
       [backGround]="'green'"
       appButtonStyle
@@ -29,7 +30,8 @@
     </button>
 
     <button
-      title="button to click input file"
+      class="col-sm-6"
+      title="button to reset input file"
       [backGround]="'orange'"
       appButtonStyle
       (click)="resetEditor($event)"
@@ -48,7 +50,7 @@
       <h3>... ще трішки ...</h3>
     </ng-container>
 
-    <video class="centerHorizontal" controls #video>
+    <video class="centerHorizontal" controls width="100%" #video>
       <source
         [src]="mediaSrc"
         type="video/mp4"
@@ -57,21 +59,122 @@
 
   </ng-container>
 
-  <button
-    [backGround]="'gray'"
-    appButtonStyle
-    (click)="closeEditor()"
+  <form
+    [formGroup]="messageForm"
+    (ngSubmit)="onSubmit(messageForm.value)"
   >
-    cancel
-  </button>
+    <mat-form-field class="col-sm-12">
+      <mat-label>caption</mat-label>
+      <textarea
+        matInput
+        cols="30"
+        rows="5"
+        type="text"
+        formControlName="caption"
+      >
+      </textarea>
+    </mat-form-field>
 
-  <button
-    type="submit"
-    [disabled]="!loadingAllowed"
-    [backGround]="'green'"
-    appButtonStyle
-  >
-    load file
-  </button>
+    <mat-form-field class="col-sm-4">
+      <mat-label>parse_mode</mat-label>
+      <mat-select
+        formControlName="parse_mode"
+      >
+        <mat-option value="HTML">HTML</mat-option>
+        <mat-option value="MarkdownV2">MarkdownV2</mat-option>
+        <mat-option value="Markdown">Markdown</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-4">
+      <mat-label>chat_id</mat-label>
+      <input
+        matInput
+        type="text"
+        formControlName="chat_id"
+      />
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-4">
+      <mat-label>reply_to_message_id</mat-label>
+      <input
+        matInput
+        type="text"
+        formControlName="reply_to_message_id"
+      />
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-3">
+      <mat-label>disable_notification</mat-label>
+      <mat-select
+        formControlName="disable_notification"
+      >
+        <mat-option [value] = true>дозволити</mat-option>
+        <mat-option [value] = false>заборонити</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-3">
+      <mat-label>protect_content</mat-label>
+      <mat-select
+        formControlName="protect_content"
+      >
+        <mat-option [value] = true>дозволити</mat-option>
+        <mat-option [value] = false>заборонити</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-3">
+      <mat-label>allow_sending_without_reply</mat-label>
+      <mat-select
+        formControlName="allow_sending_without_reply"
+      >
+        <mat-option [value] = true>дозволити</mat-option>
+        <mat-option [value] = false>заборонити</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-3">
+      <mat-label>supports_streaming</mat-label>
+      <mat-select
+        formControlName="supports_streaming"
+      >
+        <mat-option [value] = true>дозволити</mat-option>
+        <mat-option [value] = false>заборонити</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-12">
+      <mat-label>reply_markup</mat-label>
+      <textarea
+        matInput
+        cols="30"
+        rows="2"
+        type="text"
+        formControlName="reply_markup"
+      >
+      </textarea>
+    </mat-form-field>
+
+    <button
+      class="col-sm-6"
+      [backGround]="'gray'"
+      appButtonStyle
+      (click)="closeEditor()"
+    >
+      cancel
+    </button>
+
+    <button
+      class="col-sm-6"
+      type="submit"
+      [disabled]="messageForm.invalid || submitted"
+      [backGround]="'green'"
+      appButtonStyle
+    >
+      send message
+    </button>
+  </form>
+
 </div>
 

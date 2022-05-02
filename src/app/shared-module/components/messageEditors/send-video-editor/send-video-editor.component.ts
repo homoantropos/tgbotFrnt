@@ -1,6 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
+import {PostmanService} from '../../../services/postman.service';
 
 @Component({
   selector: 'app-send-video-editor',
@@ -25,17 +26,19 @@ export class SendVideoEditorComponent implements OnInit {
   loading = false;
   showBeforeVideo = false;
   loadingAllowed = false;
+  submitted = false;
 
 
   constructor(
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private postman: PostmanService
   ) {
   }
 
   ngOnInit(): void {
     this.messageForm = this.fb.group({
-      chat_id: ['', [Validators.required]],
+      chat_id: [481547986, [Validators.required]],
       caption: [''],
       parse_mode: ['HTML'],
       supports_streaming: [false],
@@ -43,7 +46,7 @@ export class SendVideoEditorComponent implements OnInit {
       protect_content: [false],
       reply_to_message_id: [null],
       allow_sending_without_reply: [false],
-      reply_markup: ['']
+      reply_markup: ['{"inline_keyboard":[[{"text":"hey","url":"sportmon.org"}]]}']
     });
   }
 
@@ -90,12 +93,25 @@ export class SendVideoEditorComponent implements OnInit {
         this.loading = false;
       }
     };
-
     reader.readAsDataURL(this.media);
   }
 
   onSubmit(value: any): void {
-
+    if (this.messageForm.invalid) {
+      return;
+    }
+    this.submitted = true;
+    this.postman.sendVideo(value, this.media)
+      .subscribe(
+        response => {
+          console.log(response);
+          this.submitted = false;
+        },
+        error => {
+          console.error(error);
+          this.submitted = false;
+        }
+      );
   }
 
   closeEditor(): void {
