@@ -45,7 +45,7 @@ body {
 }
 
 .contentContainer {
-  padding: 5px;
+  padding-top: 5px;
   width: 80%;
   height: 90vh;
   align-items: center;
@@ -55,6 +55,15 @@ body {
   .contentContainer mat-form-field {
     width: 100%;
   }
+}
+
+.dn {
+  display: none;
+}
+
+.formArrayGroupContainer {
+  display: flex;
+  align-items: center;
 }
 
 h1, h2, h3, h4, h5 {

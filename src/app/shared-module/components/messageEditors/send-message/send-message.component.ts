@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MainPageRouterService} from '../../../services/mainPageRouter.service';
+import {PostmanService} from '../../../services/postman.service';
 
 @Component({
   selector: 'app-send-message',
@@ -15,51 +16,32 @@ export class SendMessageComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private mainRouter: MainPageRouterService
+    private mainRouter: MainPageRouterService,
+    private postman: PostmanService
   ) { }
 
   ngOnInit(): void {
     this.messageForm = this.fb.group({
-      chat_id: ['', [Validators.required]],
+      chat_id: [481547986, [Validators.required]],
       text: ['', [Validators.required]],
       parse_mode: ['HTML'],
-      entities: this.fb.array([]),
       disable_web_page_preview: [false],
       disable_notification: [false],
       protect_content: [false],
-      reply_to_message_id: [],
+      reply_to_message_id: [''],
       allow_sending_without_reply: [true],
-      reply_markup: []
+      reply_markup: ['{"inline_keyboard":[[{"text":"hey","url":"sportmon.org"}]]}']
     });
-    if (this.entities) {
-      this.addEntities();
-    }
   }
 
   onSubmit(value: any): void {
-
+    this.postman.sendMessage(value)
+      .subscribe(
+        response => console.log(response),
+        error => console.error(error)
+      );
   }
 
-  get entities(): FormArray {
-    return this.messageForm.controls.entities as FormArray;
-  }
-
-  addEntities(): void {
-    this.entities.push(
-      this.fb.group({
-        type: [''],
-        offset: [null],
-        length: [null],
-        url: [''],
-        user: [''],
-        language: ['']
-      })
-    );
-  }
-
-  removeEntity(index: number): void {
-    this.entities.removeAt(index);
-  }
 
   goToMainPage(): void {
     this.mainRouter.goToMainPage();

@@ -1,1 +1,77 @@
-<p>send-video-editor works!</p>
+<div
+  class="centerHorizontal scroll"
+>
+
+  <ng-container *ngIf="message">
+    <h2 class="infoDesk centerHorizontal">
+      {{message}}
+    </h2>
+  </ng-container>
+
+  <div>
+
+    <input
+      title="hidden input for file uploading"
+      class="dn"
+      type="file"
+      multiple
+      (change)="loadFile($event)"
+      #fileInput
+    />
+
+    <button
+      title="button to click input file"
+      [backGround]="'green'"
+      appButtonStyle
+      (click)="clickInputFile($event)"
+    >
+      choose file
+    </button>
+
+    <button
+      title="button to click input file"
+      [backGround]="'orange'"
+      appButtonStyle
+      (click)="resetEditor($event)"
+    >
+      reset
+    </button>
+  </div>
+
+  <ng-container *ngIf="loading">
+    <h3>завантажуємо, зачекайте ...</h3>
+  </ng-container>
+
+  <ng-container *ngIf="mediaSrc">
+
+    <ng-container *ngIf="showBeforeVideo">
+      <h3>... ще трішки ...</h3>
+    </ng-container>
+
+    <video class="centerHorizontal" controls #video>
+      <source
+        [src]="mediaSrc"
+        type="video/mp4"
+      />
+    </video>
+
+  </ng-container>
+
+  <button
+    [backGround]="'gray'"
+    appButtonStyle
+    (click)="closeEditor()"
+  >
+    cancel
+  </button>
+
+  <button
+    type="submit"
+    [disabled]="!loadingAllowed"
+    [backGround]="'green'"
+    appButtonStyle
+  >
+    load file
+  </button>
+</div>
+
