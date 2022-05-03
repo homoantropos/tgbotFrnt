@@ -52,10 +52,7 @@
 
   <ng-container *ngIf="messageForm; else loader">
 
-    <h4><b>внесіть додаткові дані:</b></h4>
-
     <form
-      class="contentContainer scroll centerHorizontal"
       [formGroup]="messageForm"
       (ngSubmit)="onSubmit(messageForm.value)"
     >
