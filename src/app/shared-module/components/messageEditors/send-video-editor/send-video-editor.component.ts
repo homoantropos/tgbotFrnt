@@ -15,12 +15,17 @@ export class SendVideoEditorComponent implements OnInit {
 
   media: File;
   mediaSrc = '';
+
   thumb: File;
+  thumbSrc = '';
+  addThumb = false;
 
   message = '';
 
   @ViewChild('fileInput') fileInput: ElementRef<HTMLInputElement>;
   @ViewChild('video') video: ElementRef<HTMLVideoElement>;
+
+  @ViewChild('thumbInput') thumbInput: ElementRef<HTMLInputElement>;
   @ViewChild('image') image: ElementRef<HTMLImageElement>;
 
   loading = false;
@@ -83,7 +88,7 @@ export class SendVideoEditorComponent implements OnInit {
                 if (frameWidth < frameHeight) {
                   this.video.nativeElement.height = window.innerHeight * 0.7;
                 } else {
-                  this.video.nativeElement.width = window.innerWidth * 0.7;
+                  this.video.nativeElement.width = window.innerWidth * 0.6;
                 }
                 this.video.nativeElement.pause();
               }
@@ -96,16 +101,48 @@ export class SendVideoEditorComponent implements OnInit {
     reader.readAsDataURL(this.media);
   }
 
+  clickInputThumb(event: any): void {
+    if (this.thumbInput) {
+      this.thumbInput.nativeElement.click();
+      this.stopEvent(event);
+    }
+  }
+
+  loadThumb(event: any): void {
+    this.thumb = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      if (reader.result) {
+        this.thumbSrc = reader.result.toString();
+        setTimeout(
+          () => {
+            const imageWidth = this.image.nativeElement.width;
+            const imageHeight = this.image.nativeElement.height;
+            if (imageWidth < imageHeight) {
+              this.image.nativeElement.height = window.innerHeight * 0.7;
+            } else {
+              this.image.nativeElement.width = window.innerWidth * 0.6;
+            }
+          }, 0
+        );
+      }
+    };
+
+    reader.readAsDataURL(this.thumb);
+  }
+
   onSubmit(value: any): void {
     if (this.messageForm.invalid) {
       return;
     }
     this.submitted = true;
-    this.postman.sendVideo(value, this.media)
+    this.postman.sendVideo(value, this.media, this.thumb)
       .subscribe(
         response => {
           console.log(response);
           this.submitted = false;
+          this.closeEditor();
         },
         error => {
           console.error(error);
@@ -115,6 +152,7 @@ export class SendVideoEditorComponent implements OnInit {
   }
 
   closeEditor(): void {
+    this.resetEditor();
     this.router.navigate(['main']);
   }
 
@@ -125,6 +163,16 @@ export class SendVideoEditorComponent implements OnInit {
     this.media = null;
     this.mediaSrc = '';
     this.loadingAllowed = false;
+    this.resetThumb();
+  }
+
+  resetThumb(event?: any): void {
+    if (event) {
+      this.stopEvent(event);
+    }
+    this.thumb = null;
+    this.thumbSrc = '';
+    this.addThumb = false;
   }
 
   mediaSizeIsAllowedToDownload(media: File): boolean {

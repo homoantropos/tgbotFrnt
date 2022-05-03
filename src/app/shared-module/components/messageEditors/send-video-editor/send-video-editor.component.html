@@ -8,6 +8,8 @@
     </h2>
   </ng-container>
 
+  <h4><b>оберіть відео:</b></h4>
+
   <div>
 
     <input
@@ -20,31 +22,42 @@
     />
 
     <button
-      class="col-sm-6"
+      class="col-sm-4"
       title="button to click input file"
       [backGround]="'green'"
       appButtonStyle
       (click)="clickInputFile($event)"
     >
-      choose file
+      обрати відео
     </button>
 
     <button
-      class="col-sm-6"
+      class="col-sm-4"
       title="button to reset input file"
-      [backGround]="'orange'"
+      [backGround]="'gray'"
       appButtonStyle
       (click)="resetEditor($event)"
     >
       reset
     </button>
+
+    <button
+      class="col-sm-4"
+      [disabled]="!mediaSrc"
+      [backGround]="'darkgrey'"
+      appButtonStyle
+      (click)="addThumb = !addThumb"
+    >
+      додати ескіз
+    </button>
+
   </div>
 
   <ng-container *ngIf="loading">
     <h3>завантажуємо, зачекайте ...</h3>
   </ng-container>
 
-  <ng-container *ngIf="mediaSrc">
+  <div *ngIf="mediaSrc">
 
     <ng-container *ngIf="showBeforeVideo">
       <h3>... ще трішки ...</h3>
@@ -57,124 +70,180 @@
       />
     </video>
 
-  </ng-container>
+  </div>
 
-  <form
-    [formGroup]="messageForm"
-    (ngSubmit)="onSubmit(messageForm.value)"
-  >
-    <mat-form-field class="col-sm-12">
-      <mat-label>caption</mat-label>
-      <textarea
-        matInput
-        cols="30"
-        rows="5"
-        type="text"
-        formControlName="caption"
-      >
-      </textarea>
-    </mat-form-field>
-
-    <mat-form-field class="col-sm-4">
-      <mat-label>parse_mode</mat-label>
-      <mat-select
-        formControlName="parse_mode"
-      >
-        <mat-option value="HTML">HTML</mat-option>
-        <mat-option value="MarkdownV2">MarkdownV2</mat-option>
-        <mat-option value="Markdown">Markdown</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field class="col-sm-4">
-      <mat-label>chat_id</mat-label>
+  <div *ngIf="addThumb">
+    <div>
       <input
-        matInput
-        type="text"
-        formControlName="chat_id"
+        #thumbInput
+        class="dn"
+        type="file"
+        (change)="loadThumb($event)"
       />
-    </mat-form-field>
 
-    <mat-form-field class="col-sm-4">
-      <mat-label>reply_to_message_id</mat-label>
-      <input
-        matInput
-        type="text"
-        formControlName="reply_to_message_id"
-      />
-    </mat-form-field>
-
-    <mat-form-field class="col-sm-3">
-      <mat-label>disable_notification</mat-label>
-      <mat-select
-        formControlName="disable_notification"
+      <button
+        class="col-sm-6"
+        title="для додавання ескізу"
+        [backGround]="'green'"
+        appButtonStyle
+        (click)="clickInputThumb($event)"
       >
-        <mat-option [value] = true>дозволити</mat-option>
-        <mat-option [value] = false>заборонити</mat-option>
-      </mat-select>
-    </mat-form-field>
+        обрати ескіз
+      </button>
 
-    <mat-form-field class="col-sm-3">
-      <mat-label>protect_content</mat-label>
-      <mat-select
-        formControlName="protect_content"
+      <button
+        class="col-sm-6"
+        title="скасувати додавання ескізу"
+        [backGround]="'gray'"
+        appButtonStyle
+        (click)="resetThumb($event)"
       >
-        <mat-option [value] = true>дозволити</mat-option>
-        <mat-option [value] = false>заборонити</mat-option>
-      </mat-select>
-    </mat-form-field>
+        reset
+      </button>
+    </div>
 
-    <mat-form-field class="col-sm-3">
-      <mat-label>allow_sending_without_reply</mat-label>
-      <mat-select
-        formControlName="allow_sending_without_reply"
-      >
-        <mat-option [value] = true>дозволити</mat-option>
-        <mat-option [value] = false>заборонити</mat-option>
-      </mat-select>
-    </mat-form-field>
+    <img
+      class="centerHorizontal"
+      #image
+      *ngIf="thumbSrc"
+      [src]="thumbSrc"
+      alt="thumb for video"
+    />
+  </div>
 
-    <mat-form-field class="col-sm-3">
-      <mat-label>supports_streaming</mat-label>
-      <mat-select
-        formControlName="supports_streaming"
-      >
-        <mat-option [value] = true>дозволити</mat-option>
-        <mat-option [value] = false>заборонити</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field class="col-sm-12">
-      <mat-label>reply_markup</mat-label>
-      <textarea
-        matInput
-        cols="30"
-        rows="2"
-        type="text"
-        formControlName="reply_markup"
-      >
+  <div>
+    <form
+      [formGroup]="messageForm"
+      (ngSubmit)="onSubmit(messageForm.value)"
+    >
+      <mat-form-field class="col-sm-12">
+        <mat-label>підпис відео</mat-label>
+        <textarea
+          title="додати опис відео"
+          matInput
+          cols="30"
+          rows="5"
+          type="text"
+          formControlName="caption"
+        >
       </textarea>
-    </mat-form-field>
+      </mat-form-field>
 
-    <button
-      class="col-sm-6"
-      [backGround]="'gray'"
-      appButtonStyle
-      (click)="closeEditor()"
-    >
-      cancel
-    </button>
+      <mat-form-field class="col-sm-12">
+        <mat-label>розмітка відповіді</mat-label>
+        <textarea
+          title="додати замикаючу клавіатуру"
+          matInput
+          cols="30"
+          rows="2"
+          type="text"
+          formControlName="reply_markup"
+        >
+      </textarea>
+      </mat-form-field>
 
-    <button
-      class="col-sm-6"
-      type="submit"
-      [disabled]="messageForm.invalid || submitted"
-      [backGround]="'green'"
-      appButtonStyle
-    >
-      send message
-    </button>
-  </form>
+      <div *ngIf="messageForm.controls.chat_id.touched && messageForm.controls.chat_id.invalid">
+        <small
+          class="error"
+          *ngIf="messageForm.controls.chat_id.invalid && messageForm.controls.chat_id.errors.required"
+        >
+          Поле повинно бути заповненим
+        </small>
+      </div>
+      <mat-form-field class="col-sm-4">
+        <mat-label>отримувач</mat-label>
+        <input
+          title="отримувач"
+          matInput
+          type="text"
+          formControlName="chat_id"
+        />
+      </mat-form-field>
+
+      <mat-form-field class="col-sm-4">
+        <mat-label>parse_mode</mat-label>
+        <mat-select
+          title="метод парсингу"
+          formControlName="parse_mode"
+        >
+          <mat-option value="HTML">HTML</mat-option>
+          <mat-option value="MarkdownV2">MarkdownV2</mat-option>
+          <mat-option value="Markdown">Markdown</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="col-sm-4">
+        <mat-label>reply_to_message_id</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="reply_to_message_id"
+        />
+      </mat-form-field>
+
+      <mat-form-field class="col-sm-3">
+        <mat-label>повідомляти про отримання</mat-label>
+        <mat-select
+          title="визначення чи повідомляти адресата про отримання повідомлення"
+          formControlName="disable_notification"
+        >
+          <mat-option [value]=true>так</mat-option>
+          <mat-option [value]=false>ні</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="col-sm-3">
+        <mat-label>захист змісту</mat-label>
+        <mat-select
+          title="визначення чи дозволити чи заборонити адресату репостити повідомлення"
+          formControlName="protect_content"
+        >
+          <mat-option [value]=true>так</mat-option>
+          <mat-option [value]=false>ні</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="col-sm-3">
+        <mat-label>дозволити надсилання без відповіді</mat-label>
+        <mat-select
+          title="визначення чи дозволяти надсилати повідомлення без відповіді"
+          formControlName="allow_sending_without_reply"
+        >
+          <mat-option [value]=true>дозволити</mat-option>
+          <mat-option [value]=false>заборонити</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="col-sm-3">
+        <mat-label>supports_streaming</mat-label>
+        <mat-select
+          formControlName="supports_streaming"
+        >
+          <mat-option [value]=true>дозволити</mat-option>
+          <mat-option [value]=false>заборонити</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button
+        class="col-sm-6"
+        [backGround]="'gray'"
+        appButtonStyle
+        (click)="closeEditor()"
+      >
+        cancel
+      </button>
+
+      <button
+        class="col-sm-6"
+        type="submit"
+        [disabled]="messageForm.invalid || submitted"
+        [backGround]="'green'"
+        appButtonStyle
+      >
+        send message
+      </button>
+    </form>
+  </div>
 
 </div>
 

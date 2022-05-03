@@ -22,11 +22,11 @@ export class PostmanService {
     );
     if (file) {
       fd.append('video', file, file.name);
-    }
+    };
     return this.http.post(`https://api.telegram.org/bot${environment.bot_token}/sendMessage`, fd);
   }
 
-  sendVideo(message: any, file: File): Observable<any> {
+  sendVideo(message: any, file: File, thumb?: File): Observable<any> {
     const fd = new FormData();
     Object.keys(message).map(
       key => {
@@ -34,6 +34,9 @@ export class PostmanService {
       }
     );
     fd.append('video', file, file.name);
+    if (thumb) {
+      fd.append('thumb', thumb, thumb.name);
+    };
     return this.http.post(`https://api.telegram.org/bot${environment.bot_token}/sendVideo`, fd);
   }
 

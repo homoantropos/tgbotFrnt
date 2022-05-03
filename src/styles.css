@@ -74,6 +74,12 @@ h1, h2, h3, h4, h5 {
   text-align: center;
 }
 
+.infoDesk {
+  width: 60vw;
+  background-color: darkgrey;
+  font-family: "Oswald ExtraLight", "Roboto Condensed Light", sans-serif;
+  color: white;
+}
 /* navBar classes start */
 .navBar {
   background-color: gray;
