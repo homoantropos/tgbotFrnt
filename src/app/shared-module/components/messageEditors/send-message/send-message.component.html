@@ -7,8 +7,15 @@
     [formGroup]="messageForm"
     (ngSubmit)="onSubmit(messageForm.value)"
   >
-
-    <mat-form-field class="col-sm-12">
+    <div
+      class="col-sm-12"
+      *ngIf="messageForm.controls.text.touched && messageForm.controls.text.invalid"
+    >
+      <small class="error" *ngIf="messageForm.controls.text.invalid && messageForm.controls.text.errors.required">
+        Поле повинно бути заповнене
+      </small>
+    </div>
+    <mat-form-field class="col-sm-6">
       <mat-label>текст повідомлення</mat-label>
       <textarea
         title="текст повідомлення"
@@ -21,13 +28,28 @@
       >
       </textarea>
     </mat-form-field>
-    <div *ngIf="messageForm.controls.text.touched && messageForm.controls.text.invalid">
-      <small class="error" *ngIf="messageForm.controls.text.invalid && messageForm.controls.text.errors.required">
+
+    <mat-form-field class="col-sm-6">
+      <mat-label>розмітка відповіді</mat-label>
+      <textarea
+        title="додати замикаючу клавіатуру"
+        matInput
+        cols="30"
+        rows="5"
+        type="text"
+        formControlName="reply_markup"
+      >
+      </textarea>
+    </mat-form-field>
+
+    <div
+      class="col-sm-12"
+      *ngIf="messageForm.controls.chat_id.touched && messageForm.controls.chat_id.invalid"
+    >
+      <small class="error" *ngIf="messageForm.controls.chat_id.invalid && messageForm.controls.chat_id.errors.required">
         Поле повинно бути заповнене
       </small>
     </div>
-
-
     <mat-form-field class="col-sm-4">
       <mat-label>отримувач</mat-label>
       <input
@@ -60,20 +82,14 @@
       />
     </mat-form-field>
 
-    <div *ngIf="messageForm.controls.chat_id.touched && messageForm.controls.chat_id.invalid">
-      <small class="error" *ngIf="messageForm.controls.chat_id.invalid && messageForm.controls.chat_id.errors.required">
-        Поле повинно бути заповнене
-      </small>
-    </div>
-
     <mat-form-field class="col-sm-3">
       <mat-label>повідомляти про отримання</mat-label>
       <mat-select
         title="визначення чи повідомляти адресата про отримання повідомлення"
         formControlName="disable_notification"
       >
-        <mat-option [value] = true>так</mat-option>
-        <mat-option [value] = false>ні</mat-option>
+        <mat-option [value]=true>так</mat-option>
+        <mat-option [value]=false>ні</mat-option>
       </mat-select>
     </mat-form-field>
 
@@ -83,8 +99,8 @@
         formControlName="disable_web_page_preview"
         title="визначення чи дозволяти предпоказ веб-сторінки, яка згадується в повідомленні"
       >
-        <mat-option [value] = true>так</mat-option>
-        <mat-option [value] = false>ні</mat-option>
+        <mat-option [value]=true>так</mat-option>
+        <mat-option [value]=false>ні</mat-option>
       </mat-select>
     </mat-form-field>
 
@@ -94,8 +110,8 @@
         title="визначення чи дозволити чи заборонити адресату репостити повідомлення"
         formControlName="protect_content"
       >
-        <mat-option [value] = true>так</mat-option>
-        <mat-option [value] = false>ні</mat-option>
+        <mat-option [value]=true>так</mat-option>
+        <mat-option [value]=false>ні</mat-option>
       </mat-select>
     </mat-form-field>
 
@@ -105,22 +121,9 @@
         title="визначення чи дозволяти надсилати повідомлення без відповіді"
         formControlName="allow_sending_without_reply"
       >
-        <mat-option [value] = true>дозволити</mat-option>
-        <mat-option [value] = false>заборонити</mat-option>
+        <mat-option [value]=true>дозволити</mat-option>
+        <mat-option [value]=false>заборонити</mat-option>
       </mat-select>
-    </mat-form-field>
-
-    <mat-form-field class="col-sm-12">
-      <mat-label>розмітка відповіді</mat-label>
-      <textarea
-        title="додати замикаючу клавіатуру"
-        matInput
-        cols="30"
-        rows="2"
-        type="text"
-        formControlName="reply_markup"
-      >
-      </textarea>
     </mat-form-field>
 
     <div class="col-sm-12">

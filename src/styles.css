@@ -60,7 +60,6 @@ body {
 .error {
   color: red;
   font-family: "Oswald ExtraLight", "Roboto Condensed Light", sans-serif;
-  margin-left: 10px;
   position: relative;
   left: 0;
 }
