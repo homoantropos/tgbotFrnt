@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MainPageRouterService} from '../../../services/mainPageRouter.service';
 import {PostmanService} from '../../../services/postman.service';
@@ -11,7 +11,7 @@ import {PostmanService} from '../../../services/postman.service';
 export class SendMessageComponent implements OnInit {
 
   messageForm: FormGroup;
-
+  @ViewChild('text') textTextArea: ElementRef<HTMLTextAreaElement>;
   sending = false;
 
   constructor(
@@ -32,6 +32,13 @@ export class SendMessageComponent implements OnInit {
       allow_sending_without_reply: [true],
       reply_markup: ['{"inline_keyboard":[[{"text":"hey","url":"sportmon.org"}]]}']
     });
+    setTimeout(
+      () => {
+        if (this.textTextArea) {
+          this.textTextArea.nativeElement.focus();
+        }
+      }
+    );
   }
 
   onSubmit(value: any): void {
