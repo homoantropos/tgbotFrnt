@@ -15,6 +15,7 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { LoaderComponent } from './components/loader/loader.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatIconModule} from '@angular/material/icon';
+import {VideoDimensionsDirective} from './directives/videoDimensions.directive';
 
 @NgModule({
     imports: [
@@ -34,7 +35,8 @@ import {MatIconModule} from '@angular/material/icon';
     MatButtonModule,
     MatSelectModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    VideoDimensionsDirective
   ],
   declarations: [
     ButtonStylingDirective,
@@ -43,7 +45,8 @@ import {MatIconModule} from '@angular/material/icon';
     SendPhotoComponent,
     SendPollComponent,
     PageNotFoundComponent,
-    LoaderComponent
+    LoaderComponent,
+    VideoDimensionsDirective
   ],
   providers: []
 })
