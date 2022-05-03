@@ -37,11 +37,18 @@ export class SendMessageComponent implements OnInit {
   onSubmit(value: any): void {
     this.postman.sendMessage(value)
       .subscribe(
-        response => console.log(response),
+        response => {
+          console.log(response);
+          this.resetForm();
+          this.goToMainPage();
+        },
         error => console.error(error)
       );
   }
 
+  resetForm(): void {
+    this.messageForm.reset();
+  }
 
   goToMainPage(): void {
     this.mainRouter.goToMainPage();

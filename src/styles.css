@@ -38,6 +38,7 @@ body {
   transform: translate(-50%);
 }
 
+/* contentContainer class start */
 .contentContainer {
   padding-top: 5px;
   width: 80%;
@@ -50,9 +51,18 @@ body {
     width: 100%;
   }
 }
+/* contentContainer class end */
 
 .dn {
   display: none;
+}
+
+.error {
+  color: red;
+  font-family: "Oswald ExtraLight", "Roboto Condensed Light", sans-serif;
+  margin-left: 10px;
+  position: relative;
+  left: 0;
 }
 
 .formArrayGroupContainer {
