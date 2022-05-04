@@ -16,6 +16,10 @@ export class SendPhotoComponent implements OnInit {
   photoSrc: string;
 
   @ViewChild('photoInput') photoInput: ElementRef<HTMLImageElement>;
+  @ViewChild('image') image: ElementRef<HTMLImageElement>;
+
+  imageWidth: string;
+
   submitted = false;
 
   message = '';
@@ -24,7 +28,8 @@ export class SendPhotoComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private postman: PostmanService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.messageForm = this.fb.group({
@@ -36,7 +41,7 @@ export class SendPhotoComponent implements OnInit {
       reply_to_message_id: [null],
       allow_sending_without_reply: [false],
       reply_markup: ['{"inline_keyboard":[[{"text":"hey","url":"sportmon.org"}]]}']
-      });
+    });
   }
 
   clickPhotoInput(event: any): void {
@@ -48,6 +53,7 @@ export class SendPhotoComponent implements OnInit {
 
   loadPhoto(event: any): void {
     this.photo = event.target.files[0];
+    setTimeout(() => {}, 0);
     if (this.mediaSizeIsAllowedToDownload(this.photo)) {
       this.message = 'дозволено завантажувати файли менші 20мегабайт!';
       return;
@@ -111,3 +117,4 @@ export class SendPhotoComponent implements OnInit {
     return media.size >= 20971520;
   }
 }
+

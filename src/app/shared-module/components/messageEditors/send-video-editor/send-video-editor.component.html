@@ -10,6 +10,25 @@
 
   <h4><b>оберіть відео:</b></h4>
 
+  <ng-container *ngIf="loading">
+    <h3>завантажуємо, зачекайте ...</h3>
+  </ng-container>
+
+  <div *ngIf="mediaSrc">
+
+    <ng-container *ngIf="showBeforeVideo">
+      <h3>... ще трішки ...</h3>
+    </ng-container>
+
+    <video class="centerHorizontal" controls #video>
+      <source
+        [src]="mediaSrc"
+        type="video/mp4"
+      />
+    </video>
+
+  </div>
+
   <div>
 
     <input
@@ -50,25 +69,6 @@
     >
       додати ескіз
     </button>
-
-  </div>
-
-  <ng-container *ngIf="loading">
-    <h3>завантажуємо, зачекайте ...</h3>
-  </ng-container>
-
-  <div *ngIf="mediaSrc">
-
-    <ng-container *ngIf="showBeforeVideo">
-      <h3>... ще трішки ...</h3>
-    </ng-container>
-
-    <video class="centerHorizontal" controls #video>
-      <source
-        [src]="mediaSrc"
-        type="video/mp4"
-      />
-    </video>
 
   </div>
 

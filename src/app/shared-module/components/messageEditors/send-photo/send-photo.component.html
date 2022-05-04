@@ -9,16 +9,24 @@
 
   <h4><b>оберіть photo:</b></h4>
 
+  <img
+    class="centerHorizontal"
+    [imageWidth]="imageWidth"
+    appSetVideoDimensions
+    #image
+    *ngIf="photoSrc"
+    [src]="photoSrc"
+    alt="thumb for video"
+  />
   <div>
 
-    <input
-      title="hidden input for file uploading"
-      class="dn"
-      type="file"
-      multiple
-      (change)="loadPhoto($event)"
-      #photoInput
-    />
+      <input
+        title="hidden input for file uploading"
+        class="dn"
+        type="file"
+        (change)="loadPhoto($event)"
+        #photoInput
+      />
 
     <button
       class="col-sm-6"
@@ -39,15 +47,6 @@
     >
       reset
     </button>
-
-    <img
-      class="centerHorizontal"
-      #image
-      *ngIf="photoSrc"
-      [src]="photoSrc"
-      alt="thumb for video"
-    />
-
   </div>
 
   <ng-container *ngIf="messageForm; else loader">
