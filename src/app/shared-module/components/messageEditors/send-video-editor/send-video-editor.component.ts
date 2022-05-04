@@ -120,18 +120,6 @@ export class SendVideoEditorComponent implements OnInit {
     reader.onload = () => {
       if (reader.result) {
         this.thumbSrc = reader.result.toString();
-        setTimeout(
-          () => {
-            const l = this.image.nativeElement.width / this.image.nativeElement.height;
-            if (l < 1) {
-              this.image.nativeElement.height = window.innerHeight * 0.7;
-              this.image.nativeElement.width = this.image.nativeElement.height * l;
-            } else {
-              this.image.nativeElement.width = window.innerWidth * 0.6;
-              this.image.nativeElement.height = this.image.nativeElement.width / l;
-            }
-          }, 0
-        );
       }
     };
 

@@ -6,12 +6,20 @@ import {Directive, HostBinding, HostListener, Input} from '@angular/core';
 
 export class ImageResizingDirective {
 
-  @Input() file: File;
-  @HostBinding('style.width') imagWidth: number;
-  @HostBinding('style.height') height: number;
-  @HostBinding('nativeElement') element: any;
+  @Input() photoSrc: string;
+  @HostBinding('style.width') imageWidth: string;
+  @HostBinding('style.height') imageHeight: string;
 
   @HostListener('load') onLoad(): void {
-    console.log(this.element, this.imagWidth, this.height);
+    const img = new Image();
+    img.src = this.photoSrc;
+    const l = img.width / img.height;
+    if (l < 1) {
+      this.imageHeight = `${window.innerHeight * 0.7}px`;
+      this.imageWidth = `${window.innerHeight * 0.7 * l}px`;
+    } else {
+      this.imageWidth = `${window.innerWidth * 0.6}px`;
+      this.imageHeight = `${window.innerWidth * 0.6 / l}px`;
+    }
   }
 }

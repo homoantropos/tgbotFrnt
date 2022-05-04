@@ -10,22 +10,12 @@
   <h4><b>оберіть photo:</b></h4>
 
   <img
-    class="centerHorizontal"
-    #image
-    *ngIf="photoSrc"
-    [src]="photoSrc"
-    [width]="imageWidth"
-    alt="thumb for video"
-  />
-
-  <img
-    [file]="photo"
+    [photoSrc]="photoSrc"
     appResizing
     class="centerHorizontal"
     #image
     *ngIf="photoSrc"
     [src]="photoSrc"
-    [width]="imageWidth"
     alt="thumb for video"
   />
 
