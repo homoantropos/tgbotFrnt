@@ -28,6 +28,8 @@ export class SendVideoEditorComponent implements OnInit {
   @ViewChild('thumbInput') thumbInput: ElementRef<HTMLInputElement>;
   @ViewChild('image') image: ElementRef<HTMLImageElement>;
 
+  imageWidth: string;
+
   loading = false;
   showBeforeVideo = false;
   loadingAllowed = false;
@@ -103,6 +105,7 @@ export class SendVideoEditorComponent implements OnInit {
 
   clickInputThumb(event: any): void {
     if (this.thumbInput) {
+      this.imageWidth = '100px';
       if (this.image) {
         this.thumbSrc = '';
         this.image.nativeElement.setAttribute('width', '');

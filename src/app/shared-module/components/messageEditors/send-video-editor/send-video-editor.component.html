@@ -73,6 +73,16 @@
   </div>
 
   <div *ngIf="addThumb">
+    <img
+      [photoSrc]="thumbSrc"
+      appResizing
+      class="centerHorizontal"
+      #image
+      *ngIf="thumbSrc"
+      [src]="thumbSrc"
+      [width]="imageWidth"
+      alt="thumb for video"
+    />
     <div>
       <input
         #thumbInput
@@ -101,16 +111,6 @@
         reset
       </button>
     </div>
-
-    <img
-      [photoSrc]="thumbSrc"
-      appResizing
-      class="centerHorizontal"
-      #image
-      *ngIf="thumbSrc"
-      [src]="thumbSrc"
-      alt="thumb for video"
-    />
   </div>
 
   <div>
