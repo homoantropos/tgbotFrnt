@@ -18,7 +18,8 @@ export class SendPhotoComponent implements OnInit {
   @ViewChild('photoInput') photoInput: ElementRef<HTMLImageElement>;
   @ViewChild('image') image: ElementRef<HTMLImageElement>;
 
-  imageWidth: string;
+  imageWidth: number;
+  imageHeight: number;
 
   submitted = false;
 
@@ -49,24 +50,48 @@ export class SendPhotoComponent implements OnInit {
       this.photoInput.nativeElement.click();
       this.stopEvent(event);
     }
+    this.imageWidth = 100;
+    if (this.image) {
+      this.photoSrc = '';
+      this.image.nativeElement.setAttribute('width', '');
+      this.image.nativeElement.setAttribute('height', '');
+    }
+
+
   }
 
   loadPhoto(event: any): void {
     this.photo = event.target.files[0];
-    setTimeout(() => {}, 0);
+    setTimeout(() => {
+    }, 0);
     if (this.mediaSizeIsAllowedToDownload(this.photo)) {
       this.message = 'дозволено завантажувати файли менші 20мегабайт!';
       return;
     }
+
     const reader = new FileReader();
 
     reader.onload = () => {
       if (reader.result) {
         this.photoSrc = reader.result.toString();
+        setTimeout(
+          () => {
+            const l = this.image.nativeElement.width / this.image.nativeElement.height;
+            if (l < 1) {
+              this.image.nativeElement.height = window.innerHeight * 0.7;
+              this.image.nativeElement.width = this.image.nativeElement.height * l;
+            } else {
+              this.image.nativeElement.width = window.innerWidth * 0.6;
+              this.image.nativeElement.height = this.image.nativeElement.width / l;
+            }
+          }, 0
+        );
       }
     };
 
-    reader.readAsDataURL(this.photo);
+    if (this.photo) {
+      reader.readAsDataURL(this.photo);
+    }
   }
 
   onSubmit(value: any): void {
@@ -114,7 +139,11 @@ export class SendPhotoComponent implements OnInit {
   }
 
   mediaSizeIsAllowedToDownload(media: File): boolean {
-    return media.size >= 20971520;
+    if (this.photo) {
+      return media.size >= 20971520;
+    } else {
+      return false;
+    }
   }
 }
 

@@ -15,7 +15,6 @@ import {PageNotFoundComponent} from './components/page-not-found/page-not-found.
 import {LoaderComponent} from './components/loader/loader.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatIconModule} from '@angular/material/icon';
-import {VideoDimensionsDirective} from './directives/videoDimensions.directive';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import {
@@ -23,6 +22,7 @@ import {
   MatMomentDateModule,
   MomentDateAdapter
 } from '@angular/material-moment-adapter';
+import {ImageResizingDirective} from './directives/imageResizing.directive';
 
 @NgModule({
   imports: [
@@ -49,7 +49,7 @@ import {
     MatIconModule,
     MatDatepickerModule,
     MatMomentDateModule,
-    VideoDimensionsDirective
+    ImageResizingDirective
   ],
   declarations: [
     ButtonStylingDirective,
@@ -59,7 +59,7 @@ import {
     SendPollComponent,
     PageNotFoundComponent,
     LoaderComponent,
-    VideoDimensionsDirective
+    ImageResizingDirective
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'uk'}, {provide: MAT_DATE_LOCALE, useValue: 'uk'},

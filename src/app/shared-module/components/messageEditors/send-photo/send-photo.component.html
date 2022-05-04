@@ -11,13 +11,24 @@
 
   <img
     class="centerHorizontal"
-    [imageWidth]="imageWidth"
-    appSetVideoDimensions
     #image
     *ngIf="photoSrc"
     [src]="photoSrc"
+    [width]="imageWidth"
     alt="thumb for video"
   />
+
+  <img
+    [file]="photo"
+    appResizing
+    class="centerHorizontal"
+    #image
+    *ngIf="photoSrc"
+    [src]="photoSrc"
+    [width]="imageWidth"
+    alt="thumb for video"
+  />
+
   <div>
 
       <input
