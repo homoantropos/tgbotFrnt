@@ -51,4 +51,23 @@ export class PostmanService {
     return this.http.post(`https://api.telegram.org/bot${environment.bot_token}/sendPhoto`, fd);
   }
 
+  sentPoll(pollOptions: any): Observable<any> {
+    const fd = new FormData();
+    Object.keys(pollOptions).map(
+      key => {
+        fd.set(key, pollOptions[key]);
+      }
+    );
+    const options: Array<string> = [];
+    pollOptions.options.map(
+      // @ts-ignore
+      option => options.push(option.text)
+    );
+    fd.delete('close_date');
+    fd.set('close_date', new Date(pollOptions.close_date).valueOf().toString());
+    fd.delete('options');
+    fd.set('options', JSON.stringify(options));
+    return this.http.post(`https://api.telegram.org/bot${environment.bot_token}/sendPoll`, fd);
+  }
+
 }
