@@ -12,16 +12,16 @@ export class LoadFileProtectionService {
   ) {
   }
 
-  isImage(media: File): boolean {
-    if (!media.type.includes('image')) {
+  isImage(media?: File): boolean {
+    if (media && !media.type.includes('image')) {
       this.alert.warning(`завантажте зображення!`);
       return false;
     }
     return !this.checkFileSize(media);
   }
 
-  isVideo(media: File): boolean {
-    if (!media.type.includes('video')) {
+  isVideo(media?: File): boolean {
+    if (media && !media.type.includes('video')) {
       this.alert.warning(`завантажте файл відео!`);
       return false;
     }
@@ -29,7 +29,7 @@ export class LoadFileProtectionService {
   }
 
   checkFileSize(media: File): boolean {
-    if (media.size >= 20971520) {
+    if (media && media.size >= 20971520) {
       this.alert.warning(`розмір файла не може перевищувати 20MB!`);
       return true;
     } else {

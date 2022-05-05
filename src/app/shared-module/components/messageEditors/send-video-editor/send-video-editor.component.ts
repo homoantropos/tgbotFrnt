@@ -150,14 +150,6 @@ export class SendVideoEditorComponent implements OnInit {
     this.addThumb = false;
   }
 
-  mediaSizeIsAllowedToDownload(media: File): boolean {
-    if (media) {
-      return media.size >= 20971520;
-    } else {
-      return false;
-    }
-  }
-
   stopEvent(event: any): void {
     event.stopPropagation();
     event.preventDefault();
