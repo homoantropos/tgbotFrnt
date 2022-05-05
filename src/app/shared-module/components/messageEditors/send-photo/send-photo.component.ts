@@ -2,6 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {PostmanService} from '../../../services/postman.service';
 import {Router} from '@angular/router';
+import {AlertService} from '../../../services/alert.service';
 
 @Component({
   selector: 'app-send-photo',
@@ -25,7 +26,8 @@ export class SendPhotoComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private postman: PostmanService
+    private postman: PostmanService,
+    private alert: AlertService
   ) {
   }
 
@@ -50,14 +52,17 @@ export class SendPhotoComponent implements OnInit {
   }
 
   loadPhoto(event: any): void {
-    this.photo = event.target.files[0];
-    setTimeout(() => {
-    }, 0);
-    if (this.mediaSizeIsAllowedToDownload(this.photo)) {
-      this.message = 'дозволено завантажувати файли менші 20мегабайт!';
+    if (!event.target.files[0].type.includes('image')) {
+      this.alert.danger(`ви не можете завантажувати файл типу ${event.target.files[0].type}`);
       return;
     }
 
+    if (this.mediaSizeIsAllowedToDownload(event.target.files[0])) {
+      this.alert.warning('розмір файлу не може пеервищувати 20Mb');
+      return;
+    }
+
+    this.photo = event.target.files[0];
     const reader = new FileReader();
 
     reader.onload = () => {
@@ -69,6 +74,7 @@ export class SendPhotoComponent implements OnInit {
     if (this.photo) {
       reader.readAsDataURL(this.photo);
     }
+
   }
 
   onSubmit(value: any): void {
@@ -116,7 +122,7 @@ export class SendPhotoComponent implements OnInit {
   }
 
   mediaSizeIsAllowedToDownload(media: File): boolean {
-    if (this.photo) {
+    if (media) {
       return media.size >= 20971520;
     } else {
       return false;

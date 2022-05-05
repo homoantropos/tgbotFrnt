@@ -1,0 +1,27 @@
+.alert-wrap {
+  position: fixed;
+  top: 5%;
+  left: 50%;
+  transform: translate(-50%);
+  width: 20%;
+  height: 50px;
+  z-index: 1;
+}
+
+.success {
+  background-color: green;
+}
+
+.warning {
+  background-color: lightslategrey;
+}
+
+.danger {
+  background-color: red;
+}
+
+.alert-text {
+  text-align: center;
+  font-family: "Roboto Condensed", Roboto, "Helvetica Neue", sans-serif;
+  color: white;
+}

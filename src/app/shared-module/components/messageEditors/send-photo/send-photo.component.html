@@ -1,11 +1,6 @@
-<div
-  class="centerHorizontal scroll contentContainer"
+<ng-container *ngIf="messageForm; else loader"
+              class="centerHorizontal scroll contentContainer"
 >
-  <ng-container *ngIf="message">
-    <h2 class="infoDesk centerHorizontal">
-      {{message}}
-    </h2>
-  </ng-container>
 
   <h4><b>оберіть photo:</b></h4>
 
@@ -21,13 +16,13 @@
 
   <div>
 
-      <input
-        title="hidden input for file uploading"
-        class="dn"
-        type="file"
-        (change)="loadPhoto($event)"
-        #photoInput
-      />
+    <input
+      title="hidden input for file uploading"
+      class="dn"
+      type="file"
+      (change)="loadPhoto($event)"
+      #photoInput
+    />
 
     <button
       class="col-sm-6"
@@ -181,7 +176,7 @@
 
     </form>
   </ng-container>
-</div>
+</ng-container>
 
 <ng-template #loader>
   <app-loader></app-loader>

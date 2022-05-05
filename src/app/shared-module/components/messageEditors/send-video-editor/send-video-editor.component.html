@@ -1,14 +1,14 @@
-<div
-  class="centerHorizontal scroll contentContainer"
+<ng-container *ngIf="messageForm; else loader"
+              class="centerHorizontal scroll contentContainer"
 >
+
+  <h4><b>оберіть відео:</b></h4>
 
   <ng-container *ngIf="message">
     <h2 class="infoDesk centerHorizontal">
       {{message}}
     </h2>
   </ng-container>
-
-  <h4><b>оберіть відео:</b></h4>
 
   <ng-container *ngIf="loading">
     <h3>завантажуємо, зачекайте ...</h3>
@@ -251,6 +251,8 @@
       </button>
     </form>
   </div>
+</ng-container>
 
-</div>
-
+<ng-template #loader>
+  <app-loader></app-loader>
+</ng-template>

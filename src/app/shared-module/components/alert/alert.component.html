@@ -1,0 +1,15 @@
+<ng-container>
+  <div
+    class="alert-wrap"
+    *ngIf="text"
+    [ngClass]="{
+    success: type === 'success',
+    warning: type === 'warning',
+    danger: type === 'danger'
+  }"
+  >
+    <p class="alert-text centerVertical">{{ text }}</p>
+  </div>
+</ng-container>
+
+

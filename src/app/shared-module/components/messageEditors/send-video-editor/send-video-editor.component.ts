@@ -2,6 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {PostmanService} from '../../../services/postman.service';
+import {AlertService} from '../../../services/alert.service';
 
 @Component({
   selector: 'app-send-video-editor',
@@ -37,7 +38,8 @@ export class SendVideoEditorComponent implements OnInit {
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private postman: PostmanService
+    private postman: PostmanService,
+    private alert: AlertService
   ) {
   }
 
@@ -63,8 +65,13 @@ export class SendVideoEditorComponent implements OnInit {
   }
 
   loadFile(event: any): void {
+    if (!event.target.files[0].type.includes('video')) {
+      this.alert.warning(`завантажте файл відео!`);
+      return;
+    }
+
     if (this.mediaSizeIsAllowedToDownload(event.target.files[0])) {
-      this.message = 'дозволено завантажувати файли менші 20мегабайт!';
+      this.alert.warning('розмір файлу не може перевищувати 20Mb!');
       return;
     }
 
@@ -92,6 +99,16 @@ export class SendVideoEditorComponent implements OnInit {
   }
 
   loadThumb(event: any): void {
+    if (!event.target.files[0].type.includes('image')) {
+      this.alert.warning(`завантажте файл відео!`);
+      return;
+    }
+
+    if (this.mediaSizeIsAllowedToDownload(event.target.files[0])) {
+      this.alert.warning('розмір файлу не може перевищувати 20Mb!');
+      return;
+    }
+
     this.thumb = event.target.files[0];
     const reader = new FileReader();
 

@@ -1,5 +1,9 @@
-<h4><b>створіть опитування:</b></h4>
-<ng-container class="z-index-p1" *ngIf="pollForm; else loader">
+<ng-container *ngIf="pollForm; else loader"
+              class="centerHorizontal scroll contentContainer"
+>
+
+  <h4><b>створіть опитування:</b></h4>
+
   <form
     class="contentContainer scroll centerHorizontal"
     [formGroup]="pollForm"

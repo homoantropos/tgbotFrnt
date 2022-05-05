@@ -24,6 +24,7 @@ import {
 } from '@angular/material-moment-adapter';
 import {ImageResizingDirective} from './directives/imageResizing.directive';
 import {VideoResizingDirective} from './directives/videoResizing.directive';
+import { AlertComponent } from './components/alert/alert.component';
 
 @NgModule({
   imports: [
@@ -40,19 +41,20 @@ import {VideoResizingDirective} from './directives/videoResizing.directive';
     MatDatepickerModule,
     MatMomentDateModule
   ],
-  exports: [
-    ButtonStylingDirective,
-    MatButtonModule,
-    MatSelectModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatProgressSpinnerModule,
-    MatIconModule,
-    MatDatepickerModule,
-    MatMomentDateModule,
-    ImageResizingDirective,
-    VideoResizingDirective
-  ],
+    exports: [
+        ButtonStylingDirective,
+        MatButtonModule,
+        MatSelectModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatProgressSpinnerModule,
+        MatIconModule,
+        MatDatepickerModule,
+        MatMomentDateModule,
+        ImageResizingDirective,
+        VideoResizingDirective,
+        AlertComponent
+    ],
   declarations: [
     ButtonStylingDirective,
     SendVideoEditorComponent,
@@ -62,7 +64,8 @@ import {VideoResizingDirective} from './directives/videoResizing.directive';
     PageNotFoundComponent,
     LoaderComponent,
     ImageResizingDirective,
-    VideoResizingDirective
+    VideoResizingDirective,
+    AlertComponent
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'uk'}, {provide: MAT_DATE_LOCALE, useValue: 'uk'},
