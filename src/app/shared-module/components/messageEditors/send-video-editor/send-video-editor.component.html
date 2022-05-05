@@ -4,28 +4,17 @@
 
   <h4><b>оберіть відео:</b></h4>
 
-  <ng-container *ngIf="message">
-    <h2 class="infoDesk centerHorizontal">
-      {{message}}
-    </h2>
-  </ng-container>
-
   <ng-container *ngIf="loading">
     <h3>завантажуємо, зачекайте ...</h3>
   </ng-container>
 
   <div *ngIf="mediaSrc">
 
-    <ng-container *ngIf="showBeforeVideo">
-      <h3>... ще трішки ...</h3>
-    </ng-container>
-
     <video
       [videoSrc]="mediaSrc"
       appVideoResize
       class="centerHorizontal"
       controls
-      #video
     >
       <source
         [src]="mediaSrc"
@@ -47,6 +36,7 @@
     />
 
     <button
+      [disabled]="submitted"
       class="col-sm-4"
       title="button to click input file"
       [backGround]="'green'"
@@ -57,6 +47,7 @@
     </button>
 
     <button
+      [disabled]="submitted"
       class="col-sm-4"
       title="button to reset input file"
       [backGround]="'gray'"
@@ -68,7 +59,7 @@
 
     <button
       class="col-sm-4"
-      [disabled]="!mediaSrc"
+      [disabled]="!mediaSrc || submitted"
       [backGround]="'darkgrey'"
       appButtonStyle
       (click)="addThumb = !addThumb"
@@ -83,7 +74,6 @@
       [photoSrc]="thumbSrc"
       appResizing
       class="centerHorizontal"
-      #image
       *ngIf="thumbSrc"
       [src]="thumbSrc"
       alt="thumb for video"
@@ -97,6 +87,7 @@
       />
 
       <button
+        [disabled]="submitted"
         class="col-sm-6"
         title="для додавання ескізу"
         [backGround]="'green'"
@@ -107,6 +98,7 @@
       </button>
 
       <button
+        [disabled]="submitted"
         class="col-sm-6"
         title="скасувати додавання ескізу"
         [backGround]="'gray'"

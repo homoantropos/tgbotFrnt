@@ -1,7 +1,8 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {PostmanService} from '../../../services/postman.service';
 import {Router} from '@angular/router';
+
+import {PostmanService} from '../../../services/postman.service';
 import {AlertService} from '../../../services/alert.service';
 import {LoadFileProtectionService} from '../../../services/loadFileProtection.service';
 
@@ -14,15 +15,14 @@ import {LoadFileProtectionService} from '../../../services/loadFileProtection.se
 export class SendPhotoComponent implements OnInit {
 
   messageForm: FormGroup;
+
   photo: File;
-  photoSrc: string;
+  photoSrc = '';
 
   @ViewChild('photoInput') photoInput: ElementRef<HTMLImageElement>;
-  @ViewChild('image') image: ElementRef<HTMLImageElement>;
 
+  loading = false;
   submitted = false;
-
-  message = '';
 
   constructor(
     private fb: FormBuilder,
@@ -55,18 +55,18 @@ export class SendPhotoComponent implements OnInit {
 
   loadPhoto(event: any): void {
     if (this.protector.isImage(event.target.files[0])) {
+      this.loading = true;
       this.photo = event.target.files[0];
       const reader = new FileReader();
 
       reader.onload = () => {
         if (reader.result) {
           this.photoSrc = reader.result.toString();
+          this.loading = false;
         }
       };
 
-      if (this.photo) {
-        reader.readAsDataURL(this.photo);
-      }
+      reader.readAsDataURL(this.photo);
     }
   }
 
@@ -77,21 +77,17 @@ export class SendPhotoComponent implements OnInit {
     this.submitted = true;
     this.postman.sendPhoto(value, this.photo)
       .subscribe(
-        response => {
-          console.log(response);
+        () => {
+          this.alert.success('Повідомлення успішно доставлене');
           this.submitted = false;
           this.closeEditor();
         },
         error => {
+          this.alert.danger(error.message ? error.message : error);
           console.error(error);
           this.submitted = false;
         }
       );
-  }
-
-  stopEvent(event: Event): void {
-    event.preventDefault();
-    event.stopPropagation();
   }
 
   closeEditor(): void {
@@ -114,12 +110,10 @@ export class SendPhotoComponent implements OnInit {
     }
   }
 
-  mediaSizeIsAllowedToDownload(media: File): boolean {
-    if (media) {
-      return media.size >= 20971520;
-    } else {
-      return false;
-    }
+  stopEvent(event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
   }
+
 }
 

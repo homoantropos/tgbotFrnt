@@ -4,11 +4,14 @@
 
   <h4><b>оберіть photo:</b></h4>
 
+  <ng-container *ngIf="loading">
+    <h3>завантажуємо, зачекайте ...</h3>
+  </ng-container>
+
   <img
     [photoSrc]="photoSrc"
     appResizing
     class="centerHorizontal"
-    #image
     *ngIf="photoSrc"
     [src]="photoSrc"
     alt="thumb for video"
@@ -25,6 +28,7 @@
     />
 
     <button
+      [disabled]="submitted"
       class="col-sm-6"
       title="button to click input file"
       [backGround]="'green'"
@@ -35,6 +39,7 @@
     </button>
 
     <button
+      [disabled]="submitted"
       class="col-sm-6"
       title="button to reset input file"
       [backGround]="'gray'"

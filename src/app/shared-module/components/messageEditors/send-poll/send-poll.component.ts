@@ -2,8 +2,8 @@ import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
-import {HttpClient} from '@angular/common/http';
 import {PostmanService} from '../../../services/postman.service';
+import {AlertService} from '../../../services/alert.service';
 
 @Component({
   selector: 'app-send-poll',
@@ -15,7 +15,6 @@ export class SendPollComponent implements OnInit, OnDestroy {
   pollForm: FormGroup;
   pSub: Subscription;
   submitted = false;
-  sent = 0;
   today = new Date();
 
   @ViewChild('question') questionInput: ElementRef<HTMLInputElement>;
@@ -23,8 +22,8 @@ export class SendPollComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private http: HttpClient,
-    private postman: PostmanService
+    private postman: PostmanService,
+    private alert: AlertService
   ) {
   }
 
@@ -81,23 +80,23 @@ export class SendPollComponent implements OnInit, OnDestroy {
       return;
     }
     this.submitted = true;
-    this.postman.sentPoll(value)
+    this.pSub = this.postman.sentPoll(value)
       .subscribe(
-        response => {
-          console.log(response);
-          this.submitted = false;
+        () => {
+          this.alert.success('Повідомлення успішно доставлене');
         },
-        error => {
-          console.error(error.message ? error.message : error);
-          this.submitted = false;
-        }
+          error => {
+            this.alert.danger(error.message ? error.message : error);
+            console.error(error);
+            this.submitted = false;
+          }
       );
-    this.pollForm.reset();
-    this.submitted = false;
-    this.router.navigate(['main']);
+    this.onReset();
   }
 
   onReset(): void {
+    this.pollForm.reset();
+    this.submitted = false;
     this.router.navigate(['main']);
   }
 

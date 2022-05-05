@@ -1,6 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
+
 import {PostmanService} from '../../../services/postman.service';
 import {AlertService} from '../../../services/alert.service';
 import {LoadFileProtectionService} from '../../../services/loadFileProtection.service';
@@ -22,23 +23,15 @@ export class SendVideoEditorComponent implements OnInit {
   thumbSrc = '';
   addThumb = false;
 
-  message = '';
-
   @ViewChild('fileInput') fileInput: ElementRef<HTMLInputElement>;
-  @ViewChild('video') video: ElementRef<HTMLVideoElement>;
-
   @ViewChild('thumbInput') thumbInput: ElementRef<HTMLInputElement>;
-  @ViewChild('image') image: ElementRef<HTMLImageElement>;
 
   loading = false;
-  showBeforeVideo = false;
-  loadingAllowed = false;
   submitted = false;
 
-
   constructor(
-    private router: Router,
     private fb: FormBuilder,
+    private router: Router,
     private postman: PostmanService,
     private alert: AlertService,
     private protector: LoadFileProtectionService
@@ -69,7 +62,6 @@ export class SendVideoEditorComponent implements OnInit {
   loadFile(event: any): void {
     if (this.protector.isVideo(event.target.files[0])) {
       this.loading = true;
-      this.showBeforeVideo = true;
       this.resetEditor();
       this.media = event.target.files[0];
       const reader = new FileReader();
@@ -77,10 +69,10 @@ export class SendVideoEditorComponent implements OnInit {
       reader.onload = () => {
         if (reader.result) {
           this.mediaSrc = reader.result.toString();
-          this.showBeforeVideo = false;
           this.loading = false;
         }
       };
+
       reader.readAsDataURL(this.media);
     }
   }
@@ -94,12 +86,14 @@ export class SendVideoEditorComponent implements OnInit {
 
   loadThumb(event: any): void {
     if (this.protector.isImage(event.target.files[0])) {
+      this.loading = true;
       this.thumb = event.target.files[0];
       const reader = new FileReader();
 
       reader.onload = () => {
         if (reader.result) {
           this.thumbSrc = reader.result.toString();
+          this.loading = false;
         }
       };
 
@@ -114,12 +108,13 @@ export class SendVideoEditorComponent implements OnInit {
     this.submitted = true;
     this.postman.sendVideo(value, this.media, this.thumb)
       .subscribe(
-        response => {
-          console.log(response);
+        () => {
+          this.alert.success('Повідомлення успішно доставлене');
           this.submitted = false;
           this.closeEditor();
         },
         error => {
+          this.alert.danger(error.message ? error.message : error);
           console.error(error);
           this.submitted = false;
         }
@@ -137,7 +132,6 @@ export class SendVideoEditorComponent implements OnInit {
     }
     this.media = null;
     this.mediaSrc = '';
-    this.loadingAllowed = false;
     this.resetThumb();
   }
 
