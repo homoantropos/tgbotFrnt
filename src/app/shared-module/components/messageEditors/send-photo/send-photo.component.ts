@@ -18,7 +18,6 @@ export class SendPhotoComponent implements OnInit {
   @ViewChild('photoInput') photoInput: ElementRef<HTMLImageElement>;
   @ViewChild('image') image: ElementRef<HTMLImageElement>;
 
-  imageWidth: string;
   submitted = false;
 
   message = '';
@@ -48,14 +47,6 @@ export class SendPhotoComponent implements OnInit {
       this.photoInput.nativeElement.click();
       this.stopEvent(event);
     }
-    this.imageWidth = '100px';
-    if (this.image) {
-      this.photoSrc = '';
-      this.image.nativeElement.setAttribute('width', '');
-      this.image.nativeElement.setAttribute('height', '');
-    }
-
-
   }
 
   loadPhoto(event: any): void {
