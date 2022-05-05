@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {PostmanService} from '../../../services/postman.service';
 import {AlertService} from '../../../services/alert.service';
+import {LoadFileProtectionService} from '../../../services/loadFileProtection.service';
 
 @Component({
   selector: 'app-send-video-editor',
@@ -39,7 +40,8 @@ export class SendVideoEditorComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private postman: PostmanService,
-    private alert: AlertService
+    private alert: AlertService,
+    private protector: LoadFileProtectionService
   ) {
   }
 
@@ -65,30 +67,22 @@ export class SendVideoEditorComponent implements OnInit {
   }
 
   loadFile(event: any): void {
-    if (!event.target.files[0].type.includes('video')) {
-      this.alert.warning(`завантажте файл відео!`);
-      return;
+    if (this.protector.isVideo(event.target.files[0])) {
+      this.loading = true;
+      this.showBeforeVideo = true;
+      this.resetEditor();
+      this.media = event.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        if (reader.result) {
+          this.mediaSrc = reader.result.toString();
+          this.showBeforeVideo = false;
+          this.loading = false;
+        }
+      };
+      reader.readAsDataURL(this.media);
     }
-
-    if (this.mediaSizeIsAllowedToDownload(event.target.files[0])) {
-      this.alert.warning('розмір файлу не може перевищувати 20Mb!');
-      return;
-    }
-
-    this.loading = true;
-    this.showBeforeVideo = true;
-    this.resetEditor();
-    this.media = event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      if (reader.result) {
-        this.mediaSrc = reader.result.toString();
-        this.showBeforeVideo = false;
-        this.loading = false;
-      }
-    };
-    reader.readAsDataURL(this.media);
   }
 
   clickInputThumb(event: any): void {
@@ -99,26 +93,18 @@ export class SendVideoEditorComponent implements OnInit {
   }
 
   loadThumb(event: any): void {
-    if (!event.target.files[0].type.includes('image')) {
-      this.alert.warning(`завантажте файл відео!`);
-      return;
+    if (this.protector.isImage(event.target.files[0])) {
+      this.thumb = event.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        if (reader.result) {
+          this.thumbSrc = reader.result.toString();
+        }
+      };
+
+      reader.readAsDataURL(this.thumb);
     }
-
-    if (this.mediaSizeIsAllowedToDownload(event.target.files[0])) {
-      this.alert.warning('розмір файлу не може перевищувати 20Mb!');
-      return;
-    }
-
-    this.thumb = event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      if (reader.result) {
-        this.thumbSrc = reader.result.toString();
-      }
-    };
-
-    reader.readAsDataURL(this.thumb);
   }
 
   onSubmit(value: any): void {
