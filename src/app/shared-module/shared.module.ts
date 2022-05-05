@@ -23,6 +23,7 @@ import {
   MomentDateAdapter
 } from '@angular/material-moment-adapter';
 import {ImageResizingDirective} from './directives/imageResizing.directive';
+import {VideoResizingDirective} from './directives/videoResizing.directive';
 
 @NgModule({
   imports: [
@@ -49,7 +50,8 @@ import {ImageResizingDirective} from './directives/imageResizing.directive';
     MatIconModule,
     MatDatepickerModule,
     MatMomentDateModule,
-    ImageResizingDirective
+    ImageResizingDirective,
+    VideoResizingDirective
   ],
   declarations: [
     ButtonStylingDirective,
@@ -59,7 +61,8 @@ import {ImageResizingDirective} from './directives/imageResizing.directive';
     SendPollComponent,
     PageNotFoundComponent,
     LoaderComponent,
-    ImageResizingDirective
+    ImageResizingDirective,
+    VideoResizingDirective
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'uk'}, {provide: MAT_DATE_LOCALE, useValue: 'uk'},

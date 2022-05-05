@@ -20,7 +20,13 @@
       <h3>... ще трішки ...</h3>
     </ng-container>
 
-    <video class="centerHorizontal" controls #video>
+    <video
+      [videoSrc]="mediaSrc"
+      appVideoResize
+      class="centerHorizontal"
+      controls
+      #video
+    >
       <source
         [src]="mediaSrc"
         type="video/mp4"

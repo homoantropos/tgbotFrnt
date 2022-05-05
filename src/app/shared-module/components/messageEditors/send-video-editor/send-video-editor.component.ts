@@ -77,24 +77,7 @@ export class SendVideoEditorComponent implements OnInit {
     reader.onload = () => {
       if (reader.result) {
         this.mediaSrc = reader.result.toString();
-
-        setTimeout(
-          () => {
-            this.video.nativeElement.play().then(
-              () => {
-                this.showBeforeVideo = false;
-                const frameWidth = this.video.nativeElement.videoWidth;
-                const frameHeight = this.video.nativeElement.videoHeight;
-                if (frameWidth < frameHeight) {
-                  this.video.nativeElement.height = window.innerHeight * 0.7;
-                } else {
-                  this.video.nativeElement.width = window.innerWidth * 0.6;
-                }
-                this.video.nativeElement.pause();
-              }
-            );
-          }, 0
-        );
+        this.showBeforeVideo = false;
         this.loading = false;
       }
     };
@@ -165,7 +148,11 @@ export class SendVideoEditorComponent implements OnInit {
   }
 
   mediaSizeIsAllowedToDownload(media: File): boolean {
-    return media.size >= 20971520;
+    if (media) {
+      return media.size >= 20971520;
+    } else {
+      return false;
+    }
   }
 
   stopEvent(event: any): void {
