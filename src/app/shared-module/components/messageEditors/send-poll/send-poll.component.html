@@ -44,7 +44,7 @@
       <p><b>наведіть варіанти відповідей</b></p>
     </div>
 
-    <div formArrayName="options" *ngFor="let _ of options.controls; index as i last as last">
+    <div formArrayName="options" *ngFor="let _ of options.controls; index as i">
       <div class="formArrayGroupContainer" formGroupName="{{i}}">
         <mat-form-field class="col-sm-10">
           <mat-label>відповідь {{i + 1}}</mat-label>
@@ -162,6 +162,43 @@
         formControlName="explanation"
       >
         </textarea>
+    </mat-form-field>
+
+    <div class="formTitle m-t-1">
+      <p><b>оберіть опції повідомлення</b></p>
+    </div>
+
+    <mat-form-field class="col-sm-3">
+      <mat-label>повідомляти про отримання</mat-label>
+      <mat-select
+        title="визначення чи повідомляти адресата про отримання повідомлення"
+        formControlName="disable_notification"
+      >
+        <mat-option [value]=true>ні</mat-option>
+        <mat-option [value]=false>так</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-3">
+      <mat-label>захист змісту</mat-label>
+      <mat-select
+        title="визначення чи дозволити чи заборонити адресату репостити повідомлення"
+        formControlName="protect_content"
+      >
+        <mat-option [value]=true>так</mat-option>
+        <mat-option [value]=false>ні</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-3">
+      <mat-label>дозволити надсилання без відповіді</mat-label>
+      <mat-select
+        title="визначення чи дозволяти надсилати повідомлення без відповіді"
+        formControlName="allow_sending_without_reply"
+      >
+        <mat-option [value]=true>дозволити</mat-option>
+        <mat-option [value]=false>заборонити</mat-option>
+      </mat-select>
     </mat-form-field>
 
     <button

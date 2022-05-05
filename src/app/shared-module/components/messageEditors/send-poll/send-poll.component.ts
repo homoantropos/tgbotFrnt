@@ -10,6 +10,7 @@ import {AlertService} from '../../../services/alert.service';
   templateUrl: './send-poll.component.html',
   styleUrls: ['./send-poll.component.css']
 })
+
 export class SendPollComponent implements OnInit, OnDestroy {
 
   pollForm: FormGroup;
@@ -54,7 +55,10 @@ export class SendPollComponent implements OnInit, OnDestroy {
       explanation: [''],
       open_period: [null],
       close_date: [null],
-      explanation_parse_mode: ['HTML']
+      explanation_parse_mode: ['HTML'],
+      disable_notification: [false],
+      protect_content: [false],
+      allow_sending_without_reply: [false]
     });
   }
 
@@ -84,6 +88,7 @@ export class SendPollComponent implements OnInit, OnDestroy {
       .subscribe(
         () => {
           this.alert.success('Повідомлення успішно доставлене');
+          this.onReset();
         },
           error => {
             this.alert.danger(error.message ? error.message : error);
@@ -91,7 +96,6 @@ export class SendPollComponent implements OnInit, OnDestroy {
             this.submitted = false;
           }
       );
-    this.onReset();
   }
 
   onReset(): void {
@@ -105,4 +109,5 @@ export class SendPollComponent implements OnInit, OnDestroy {
       this.pSub.unsubscribe();
     }
   }
+
 }
